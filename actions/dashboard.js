@@ -10,16 +10,22 @@ const serializeTransaction = (obj) => {
     if (obj.balance) {
         serializeTransaction.balance = obj.balance.toNumber();
     }
+
+    if (obj.amount) {
+        serializeTransaction.amount = obj.amount.toNumber();
+    }
+
+    return serialized;
 };
 
 
-export async function createAccount (data) {
-    try{
+export async function createAccount(data) {
+    try {
         const { userId } = await auth();
-        if (!userId) throw new Error ("Unauthorized");
+        if (!userId) throw new Error("Unauthorized");
 
         const user = await db.user.findUnique({
-            where: {clerkUserId: userId},
+            where: { clerkUserId: userId },
         });
 
         if (!user) {
@@ -28,7 +34,7 @@ export async function createAccount (data) {
 
         // Convert balance to float before saving
         const balanceFloat = parseFloat(data.balance)
-        if(isNaN(balanceFloat)){
+        if (isNaN(balanceFloat)) {
             throw new Error("Invalid balance amount");
         }
 
@@ -48,7 +54,7 @@ export async function createAccount (data) {
         }
 
         const account = await db.account.create({
-            data:{
+            data: {
                 ...data,
                 balance: balanceFloat,
                 userId: user.id,
@@ -61,7 +67,36 @@ export async function createAccount (data) {
         revalidatePath("/dashboard");
         return { success: true, data: serializedAccount };
 
-    } catch(error){
+    } catch (error) {
         throw new Error(error.message);
     }
+}
+
+export async function getUserAccounts() {
+    const { userId } = await auth();
+    if (!userId) throw new Error("Unauthorized");
+
+    const user = await db.user.findUnique({
+        where: { clerkUserId: userId },
+    });
+
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    const accounts = await db.account.findMany({
+        where: { userId: user.id },
+        orderBy: { createdAt: "desc" },
+        include: {
+            _count: {
+                select: {
+                    transactions: true,
+                },
+            },
+        },
+    });
+
+    const serializedAccount = accounts.map(serializeTransaction);
+
+    return serializedAccount;
 }
