@@ -114,8 +114,6 @@ Workflows located at:
 
 ## 📸 UI
 
-Add your screenshots to `public/images/` and reference them here:
-
 | Screen              | Preview |
 |---------------------|---------|
 | **Dashboard**       | ![Dashboard](public/images/img1.png) |
