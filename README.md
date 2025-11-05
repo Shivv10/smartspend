@@ -1,36 +1,137 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📊 SmartSpend – Personal Finance Manager
 
-## Getting Started
+SmartSpend is a modern web application that helps users manage their expenses, track spending habits, scan receipts using AI, and get financial insights — all in one place.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Features
+
+- ✅ **Expense Tracking** – Add, edit, and organize expenses by category  
+- 🤖 **AI Receipt Scanner** – Uses Google Gemini AI to read and extract data from receipts  
+- 📈 **Insights & Analytics** – Powered by Inngest workflows for automated financial insights  
+- 🔐 **Authentication** – Secure login and account setup  
+- 🎯 **Budget Planning** – Set spending limits per category  
+- 📊 **Charts & Visuals** – Insights with dynamic charts  
+- 🌙 **Modern Design** – Built with Next.js + Tailwind + shadcn/ui  
+
+---
+
+## 🛠️ Tech Stack
+
+| Category       | Technologies Used |
+|----------------|-------------------|
+| **Frontend**   | Next.js 13+, React, Tailwind CSS, shadcn/ui |
+| **Backend**    | Next.js API Routes, Inngest |
+| **Database**   | PostgreSQL + Prisma ORM |
+| **AI Service** | Google Gemini AI (for receipt scanning) |
+| **State/Utils**| Custom `useFetch`, Sonner (toast notifications) |
+| **Charts**     | Chart.js / React-Chartjs-2 |
+
+---
+
+## 📂 Project Structure
+
+```
+smartspend/
+├── app/              # Next.js App Router
+├── components/       # UI Components
+├── lib/
+│   ├── inngest/      # Inngest workflows and events
+│   ├── prisma/       # Prisma Client setup
+│   └── ai/           # Google Gemini Receipt Parser
+├── prisma/           # Prisma schema
+├── public/
+│   └── images/ 
+├── .env
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## ⚙️ Setup & Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1️⃣ Clone the repository
+```
+git clone https://github.com/shivv/smartspend.git
+cd smartspend
+```
 
-## Learn More
+### 2️⃣ Install dependencies
+```
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 3️⃣ Create `.env` file
+Create a `.env` file in the root and add:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+DATABASE_URL="postgresql://user:password@localhost:5432/smartspend"
+GOOGLE_GEMINI_API_KEY="your_gemini_api_key"
+INNGEST_EVENT_KEY="your_inngest_key"
+NEXT_PUBLIC_ENV="development"
+ARCJET_KEY=""
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4️⃣ Setup database using Prisma
+```
+npx prisma migrate dev --name init
+npx prisma generate
+```
 
-## Deploy on Vercel
+### 5️⃣ Run the development server
+```
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🤖 Google Gemini Receipt Scanning
+
+The app allows you to upload receipt images → Gemini AI extracts:
+
+- Store name  
+- Date  
+- Items & prices  
+- Total amount  
+
+Implementation:  
+`/lib/ai/receiptParser.ts`
+
+---
+
+## 📬 Inngest – Expense Insights
+
+Inngest is used for:
+
+- Sending automated finance reports  
+- Detecting overspending in categories  
+- Background processing of analytics  
+
+Workflows located at:  
+`/lib/inngest/`
+
+---
+
+## 📸 UI
+
+Add your screenshots to `public/images/` and reference them here:
+
+| Screen              | Preview |
+|---------------------|---------|
+| **Dashboard**       | ![Dashboard](public/images/img1.png) |
+| **Transaction Overview**     | ![Transactions](public/images/img2.png) |
+| **History**       | ![Analytics](public/images/img3.png) |
+| **Receipt Scanner** | ![Receipt Scan](public/images/img4.png) |
+
+---
+
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+## 🧑‍💻 Author
+
+**Shiv Gandhi**
